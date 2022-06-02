@@ -1,10 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.bean.AnnoyanceBean;
-import com.example.demo.entity.Annoyance;
-import com.example.demo.service.AnnoyanceService;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.example.demo.service.impl.AnnoyanceServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/annoyance")
 public class AnnoyanceController {
-    private final AnnoyanceService annoyanceService;
+    private final AnnoyanceServiceImpl annoyanceService;
 
     @ResponseBody
     @PostMapping("create")
@@ -26,7 +25,7 @@ public class AnnoyanceController {
         ObjectNode result = mapper.createObjectNode();
         result.putObject("data");
         try {
-            annoyanceService.create(annoyanceBean);
+            annoyanceService.createAndReturnBean(annoyanceBean);
             System.out.println(annoyanceBean.getAccount());
             System.out.println(annoyanceBean.getContext());
             System.out.println(annoyanceBean.getType());
@@ -43,14 +42,15 @@ public class AnnoyanceController {
 
     @ResponseBody
     @GetMapping(path = "search", params = "account", produces = "application/json; charset=UTF-8")
-    public String SearchAnnoyanceByAccount(@RequestParam(name = "account") String account) throws JsonProcessingException {
+    public ResponseEntity SearchAnnoyanceByAccount(@RequestParam(name = "account") String account) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode result = mapper.createObjectNode();
-        result.putObject("data");
+        ArrayNode dataNode = result.putArray("data");
         try {
-            List<Annoyance> annoyanceList = annoyanceService.SearchAnnoyanceByAccounr(account);
-            for (Annoyance annoyance : annoyanceList){
-                result.put("id", annoyance.getId());
+            List<AnnoyanceBean> annoyanceList = annoyanceService.searchAnnoyanceByAccount(account);
+            for (AnnoyanceBean annoyanceBean : annoyanceList){
+                ObjectNode annoyanceNode = dataNode.addObject();
+                annoyanceNode.put("id", annoyanceBean.getId());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,7 +58,7 @@ public class AnnoyanceController {
         result.put("result", true);
         result.put("errorCode", "");
         result.put("message", "查詢成功");
-        return mapper.writeValueAsString(result);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
 }

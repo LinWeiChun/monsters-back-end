@@ -2,7 +2,6 @@ plugins {
 	id 'org.springframework.boot' version '2.6.6'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-	id "com.heroku.sdk.heroku-gradle" version "2.0.0"
 }
 
 group = 'com.example'
@@ -19,14 +18,6 @@ repositories {
 	mavenCentral()
 }
 
-heroku{
-	appName = "monsters-108"
-	jdkVersion = 11
-	processTypes(
-		web: "java -jar build/libs/my-app.jar"
-	)
-}
-
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -38,7 +29,6 @@ dependencies {
 	implementation 'org.apache.commons:commons-text:1.9'
 	implementation 'org.jetbrains:annotations:23.0.0'
 	implementation 'org.testng:testng:7.5'
-	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'mysql:mysql-connector-java'
 	compileOnly 'org.projectlombok:lombok:1.18.24'
 	annotationProcessor 'org.projectlombok:lombok:1.18.24'
@@ -48,8 +38,9 @@ dependencies {
 	implementation 'org.springframework.data:spring-data-elasticsearch:4.4.0'
 	testImplementation 'org.apache.httpcomponents:httpclient'
 	implementation 'org.apache.commons:commons-lang3:3.12.0'
-	implementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-	implementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+	implementation 'org.hibernate:hibernate-c3p0:5.4.15.Final'
+	implementation 'com.google.code.findbugs:jsr305:3.0.2'
+	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
@@ -57,9 +48,4 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
-}
-
-wrapper {
-	gradleVersion = '4.4'
-	distributionUrl = distributionUrl.replace("bin", "all")
 }
