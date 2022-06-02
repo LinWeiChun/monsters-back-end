@@ -19,7 +19,7 @@ public class AnnoyanceController {
     private final AnnoyanceServiceImpl annoyanceService;
 
     @ResponseBody
-    @PostMapping("create")
+    @PostMapping("/create")
     public ResponseEntity createAnnoyance(@RequestBody AnnoyanceBean annoyanceBean) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode result = mapper.createObjectNode();
@@ -41,7 +41,7 @@ public class AnnoyanceController {
     }
 
     @ResponseBody
-    @GetMapping(path = "search", params = "account", produces = "application/json; charset=UTF-8")
+    @GetMapping(path = "/search", params = "account", produces = "application/json; charset=UTF-8")
     public ResponseEntity SearchAnnoyanceByAccount(@RequestParam(name = "account") String account) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode result = mapper.createObjectNode();

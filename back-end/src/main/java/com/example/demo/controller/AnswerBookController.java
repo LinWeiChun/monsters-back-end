@@ -18,7 +18,7 @@ public class AnswerBookController {
     private final AnswerBookServiceImpl answerBookService;
 
     @ResponseBody
-    @GetMapping(path = "search", produces = "application/json; charset=UTF-8")
+    @GetMapping(path = "/search", produces = "application/json; charset=UTF-8")
     public String searchAnswerBook(AnswerBookBean answerBookBean) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode result = mapper.createObjectNode();
