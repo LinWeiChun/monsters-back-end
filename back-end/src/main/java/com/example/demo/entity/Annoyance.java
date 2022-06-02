@@ -4,7 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-
+import com.example.demo.entity.enumerate.AnnoyanceTypeEnum;
 
 @Data
 @Entity
@@ -15,8 +15,6 @@ public class Annoyance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    //    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "account", referencedColumnName = "account", nullable = false)
     @Column(name = "`account`", nullable = false)
     private String account;
 
@@ -24,7 +22,7 @@ public class Annoyance {
     private String context;
 
     @Column(name = "`type`", nullable = false)
-    private com.example.demo.entity.enumerate.AnnoyanceTypeEnum type;
+    private AnnoyanceTypeEnum type;
 
     @Column(name = "`dall_id`")
     private int dallId;
