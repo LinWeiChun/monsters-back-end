@@ -34,8 +34,8 @@ spring:
         maxFileSize: 100Mb
         maxRequestSize: 100Mb
 server:
-  port: 8080
-  delegate-port: 8080
+  port:
+  delegate-port:
   servlet:
     encoding:
       charset: UTF-8
